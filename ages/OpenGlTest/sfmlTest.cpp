@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 
+
 int main() {
 	
 	
@@ -31,6 +32,10 @@ int main() {
 			
 			if (event.type == sf::Event::Closed)
 			window.close();
+			if (event.type == sf::Event::MouseWheelEvent){
+				fprintf(stderr, event.delta());
+				
+			}
 		}
 		
 		
