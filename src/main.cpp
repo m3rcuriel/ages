@@ -4,11 +4,60 @@
 #include <cstdlib>
 #include <ctime>
 
+
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
 const int MAP_WIDTH = 640;
 const int MAP_HEIGHT = 480;
+
+void zoomToMouse( sf::RenderWindow& window, sf::Event event){
+
+    int x = event.mouseWheel.x;
+    int y = event.mouseWheel.y;
+    int delta = event.mouseWheel.delta;
+    float zoomFactor = 1.2;
+    
+    sf::View view = window.getView();
+    sf::Vector2i mousePixel(x,y);
+    sf::Vector2f mouseCoords = window.mapPixelToCoords(mousePixel);
+    
+    float zoom;
+    if(delta < 0)
+        zoom = delta*zoomFactor*-1;
+    else
+        zoom = 1/(delta*zoomFactor);
+    
+    view.setCenter(mouseCoords);
+    view.zoom(zoom);
+    
+    sf::Vector2f mouseCoordsFinal = window.mapPixelToCoords(mousePixel, view);
+    view.move( mouseCoords.x-mouseCoordsFinal.x, mouseCoords.y-mouseCoordsFinal.y); 
+    window.setView(view);
+}
+
+sf::Image renderMap(float** map, sf::Image image){
+    for(int y = 0; y < MAP_HEIGHT; y++) {
+        for(int x = 0; x < MAP_WIDTH; x++) {
+            float value = map[x][y] * 127 + 128;
+            float red = value;
+            float blue = value;
+            float green = value;
+            if(value < 130) {
+                red = 0;
+                blue = value * 0.75;
+                green = value * 0.55;
+            } else {
+                red = 0.50 * value;
+                blue = blue*blue*blue*blue / (255 * 255 * 255);
+                green = value;
+            }
+            sf::Color pixel(sf::Color(red, green, blue));
+            image.setPixel(x , y, pixel);
+        }
+    }
+    return image;
+}
 
 int main() {
     srand(time(0));
@@ -20,55 +69,28 @@ int main() {
     }
     generator.generate(map);
 
-    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "GenWindow");
 
+    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "GenWindow");    
     sf::Image image;
     image.create(MAP_WIDTH, MAP_HEIGHT);
-
     sf::Texture texture;
     texture.loadFromImage(image);
     sf::Sprite sprite(texture);
-    sf::Color pixel;
     sf::Event event;
     
     while(window.isOpen()) {
-        for(int y = 0; y < MAP_HEIGHT; y++) {
-            for(int x = 0; x < MAP_WIDTH; x++) {
-                float value = map[x][y] * 127 + 128;
-                float red = value;
-                float blue = value;
-                float green = value;
-                if(value < 130) {
-                    red = 0;
-                    blue = value * 0.75;
-                    green = value * 0.55;
-                } else {
-                    red = 0.50 * value;
-                    blue = blue*blue*blue*blue / (255 * 255 * 255);
-                    green = value;
-                }
-                pixel = sf::Color(red, green, blue);
-                image.setPixel(x , y, pixel);
-            }
-        }
-
+    
+        image = renderMap(map, image);
         texture.loadFromImage(image);
-
+        
         while(window.pollEvent(event)) {
+            
             if(event.type == sf::Event::Closed)
                 window.close();
 
-            if(event.type == sf::Event::MouseWheelMoved) {
-                sprite.setOrigin(event.mouseWheel.x, event.mouseWheel.y);
-                sprite.setPosition(event.mouseWheel.x, event.mouseWheel.y);
-
-                int delta = event.mouseWheel.delta;
-
-                if(delta < 0)
-                    sprite.scale( -1 * (float) delta / 1.05, -1 * (float) delta / 1.05);
-                else
-                    sprite.scale ((float) delta * 1.05, (float) delta * 1.05);
-            }
+            if(event.type == sf::Event::MouseWheelMoved) 
+                zoomToMouse(window, event);
+            
         }
 
         window.clear(sf::Color::Black);
@@ -78,5 +100,7 @@ int main() {
 
     return 0;
 }
+
+ 
 
 
