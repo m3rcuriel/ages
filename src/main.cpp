@@ -11,8 +11,8 @@ const int SCREEN_HEIGHT = 480;
 const int MAP_WIDTH = 640;
 const int MAP_HEIGHT = 480;
 
+//Zooms window to the mouse position.
 void zoomToMouse( sf::RenderWindow& window, sf::Event event){
-
     int x = event.mouseWheel.x;
     int y = event.mouseWheel.y;
     int delta = event.mouseWheel.delta;
@@ -36,6 +36,7 @@ void zoomToMouse( sf::RenderWindow& window, sf::Event event){
     window.setView(view);
 }
 
+//Transforms the map into a sfml image for rendering.
 sf::Image renderMap(float** map, sf::Image image){
     for(int y = 0; y < MAP_HEIGHT; y++) {
         for(int x = 0; x < MAP_WIDTH; x++) {
@@ -59,7 +60,9 @@ sf::Image renderMap(float** map, sf::Image image){
     return image;
 }
 
-int main() {
+
+//Generates the map
+float** genMap(){
     srand(time(0));
     SimplexSettings settings = {16, .6, 0.0025, MAP_WIDTH, MAP_HEIGHT};
     SimplexGenerator generator(settings);
@@ -68,7 +71,11 @@ int main() {
         map[i] = new float[MAP_HEIGHT];
     }
     generator.generate(map);
+    return map;
+}
 
+int main() {
+    float** map = genMap();
 
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "GenWindow");    
     sf::Image image;
