@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-
+#include <cmath>
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -19,8 +19,8 @@ void zoomToMouse( sf::RenderWindow& window, sf::Event event){
     float zoomFactor = 1.2;
     
     sf::View view = window.getView();
-    sf::Vector2i mousePixel(x,y);
-    sf::Vector2f mouseCoords = window.mapPixelToCoords(mousePixel);
+    sf::Vector2i crsrPixel(x,y);
+    sf::Vector2f crsrCoords = window.mapPixelToCoords(crsrPixel);
     
     float zoom;
     if(delta < 0)
@@ -28,11 +28,11 @@ void zoomToMouse( sf::RenderWindow& window, sf::Event event){
     else
         zoom = 1/(delta*zoomFactor);
     
-    view.setCenter(mouseCoords);
+    view.setCenter(crsrCoords);
     view.zoom(zoom);
     
-    sf::Vector2f mouseCoordsFinal = window.mapPixelToCoords(mousePixel, view);
-    view.move( mouseCoords.x-mouseCoordsFinal.x, mouseCoords.y-mouseCoordsFinal.y); 
+    sf::Vector2f crsrCoordsNew = window.mapPixelToCoords(crsrPixel, view);//Finds new mouse coordinates
+    view.move( crsrCoords.x-crsrCoordsNew.x, crsrCoords.y-crsrCoordsNew.y); //Moves view based on new mouse coords.
     window.setView(view);
 }
 
@@ -84,11 +84,15 @@ int main() {
     texture.loadFromImage(image);
     sf::Sprite sprite(texture);
     sf::Event event;
+    bool drag = false;
+    bool oldDrag = false;
+    sf::Vector2f prevCrsrCoords(-1, -1);
     
     while(window.isOpen()) {
     
         image = renderMap(map, image);
         texture.loadFromImage(image);
+        
         
         while(window.pollEvent(event)) {
             
@@ -98,6 +102,30 @@ int main() {
             if(event.type == sf::Event::MouseWheelMoved) 
                 zoomToMouse(window, event);
             
+            if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Button::Middle){
+                if(!drag){
+                    sf::Vector2i crsrPixel(sf::Mouse::getPosition(window));
+                    prevCrsrCoords = window.mapPixelToCoords(crsrPixel);
+                }
+                drag = true;
+            }
+            
+            
+            if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Button::Middle){
+                drag = false;
+            }
+            
+            if(event.type == sf::Event::MouseMoved && drag == true){
+                sf::Vector2i crsrPixel( sf::Mouse::getPosition(window));
+                sf::Vector2f crsrCoords = window.mapPixelToCoords(crsrPixel);
+                float x = (prevCrsrCoords.x - crsrCoords.x);
+                float y = (prevCrsrCoords.y - crsrCoords.y);
+                sf::View view = window.getView();
+                sf::Vector2f shift( x, y);
+                view.move(shift);
+                window.setView(view);
+                
+            }            
         }
 
         window.clear(sf::Color::Black);
