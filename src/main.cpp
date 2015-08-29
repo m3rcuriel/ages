@@ -4,6 +4,9 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+using sf::Event;
+using sf::Vector2f;
+using sf::Vector2i;
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -12,15 +15,15 @@ const int MAP_WIDTH = 640;
 const int MAP_HEIGHT = 480;
 
 //Zooms window to the mouse position.
-void zoomToMouse( sf::RenderWindow& window, sf::Event event){
+void zoomToMouse( sf::RenderWindow& window, Event event){
     int x = event.mouseWheel.x;
     int y = event.mouseWheel.y;
     int delta = event.mouseWheel.delta;
     float zoomFactor = 1.2;
     
     sf::View view = window.getView();
-    sf::Vector2i crsrPixel(x,y);
-    sf::Vector2f crsrCoords = window.mapPixelToCoords(crsrPixel);
+    Vector2i crsrPixel(x,y);
+    Vector2f crsrCoords = window.mapPixelToCoords(crsrPixel);
     
     float zoom;
     if(delta < 0)
@@ -31,7 +34,7 @@ void zoomToMouse( sf::RenderWindow& window, sf::Event event){
     view.setCenter(crsrCoords);
     view.zoom(zoom);
     
-    sf::Vector2f crsrCoordsNew = window.mapPixelToCoords(crsrPixel, view);//Finds new mouse coordinates
+    Vector2f crsrCoordsNew = window.mapPixelToCoords(crsrPixel, view);//Finds new mouse coordinates
     view.move( crsrCoords.x-crsrCoordsNew.x, crsrCoords.y-crsrCoordsNew.y); //Moves view based on new mouse coords.
     window.setView(view);
 }
@@ -83,10 +86,9 @@ int main() {
     sf::Texture texture;
     texture.loadFromImage(image);
     sf::Sprite sprite(texture);
-    sf::Event event;
+    Event event;
     bool drag = false;
-    bool oldDrag = false;
-    sf::Vector2f prevCrsrCoords(-1, -1);
+    Vector2f prevCrsrCoords(-1, -1);
     
     while(window.isOpen()) {
     
@@ -96,32 +98,31 @@ int main() {
         
         while(window.pollEvent(event)) {
             
-            if(event.type == sf::Event::Closed)
+            if(event.type == Event::Closed)
                 window.close();
 
-            if(event.type == sf::Event::MouseWheelMoved) 
+            if(event.type == Event::MouseWheelMoved) 
                 zoomToMouse(window, event);
             
-            if(event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Button::Middle){
+            if(event.type == Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Middle){
                 if(!drag){
-                    sf::Vector2i crsrPixel(sf::Mouse::getPosition(window));
+                    Vector2i crsrPixel(sf::Mouse::getPosition(window));
                     prevCrsrCoords = window.mapPixelToCoords(crsrPixel);
                 }
                 drag = true;
             }
             
-            
-            if(event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Button::Middle){
+            if(event.type == Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Middle){
                 drag = false;
             }
             
-            if(event.type == sf::Event::MouseMoved && drag == true){
-                sf::Vector2i crsrPixel( sf::Mouse::getPosition(window));
-                sf::Vector2f crsrCoords = window.mapPixelToCoords(crsrPixel);
+            if(event.type == Event::MouseMoved && drag == true){
+                Vector2i crsrPixel( sf::Mouse::getPosition(window));
+                Vector2f crsrCoords = window.mapPixelToCoords(crsrPixel);
                 float x = (prevCrsrCoords.x - crsrCoords.x);
                 float y = (prevCrsrCoords.y - crsrCoords.y);
                 sf::View view = window.getView();
-                sf::Vector2f shift( x, y);
+                Vector2f shift( x, y);
                 view.move(shift);
                 window.setView(view);
                 
