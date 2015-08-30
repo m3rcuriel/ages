@@ -47,7 +47,7 @@ sf::Image renderMap(float** map, sf::Image image){
             float red = value;
             float blue = value;
             float green = value;
-            if(value < 130) {
+            if(value < 128) {  
                 red = 0;
                 blue = value * 0.75;
                 green = value * 0.55;
