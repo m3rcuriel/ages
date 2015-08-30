@@ -1,3 +1,8 @@
+#include <vector>
+#include <set>
+#include <random>
+#include <cmath>
+#include "map.h"
 const float WATER_LEVEL = 0;
 const int MIN_OCEANS = 20;
 const float PEAK_MIN = 0.3;
@@ -13,20 +18,21 @@ const float MAX_BULLDOZE_DIFF = 0.05;
 struct coord {
     int x;
     int y;
-    coord(int a, int b);
-}
+    coord(int a = 0, int b = 0);
+};
 
 class RiverGen {
-private:
+public:
+    // All is public for debugging, for now
     std::vector<coord> oceans;
     std::vector<coord> peaks;
     std::vector<coord> sources;
     void edge_fill_oceans();
     void find_peaks();
     void find_water_sources();
+    void river_alg();
     int x_dim;
     int y_dim;
-public:
     terrain *map; //Not using a smart ptr because this isn't dangerous
     RiverGen(terrain *the_map, int x, int y);
     ~RiverGen();

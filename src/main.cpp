@@ -1,5 +1,6 @@
 #include "SFML/Graphics.hpp"
 #include "gen/simplex.h"
+#include "rivergen/rivergen.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -11,8 +12,8 @@ using sf::Vector2i;
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-const int MAP_WIDTH = 640;
 const int MAP_HEIGHT = 480;
+const int MAP_WIDTH = 640;
 
 //Zooms window to the mouse position.
 void zoomToMouse( sf::RenderWindow& window, Event event){
@@ -40,14 +41,14 @@ void zoomToMouse( sf::RenderWindow& window, Event event){
 }
 
 //Transforms the map into a sfml image for rendering.
-sf::Image renderMap(float** map, sf::Image image){
+sf::Image renderMap(terrain map, sf::Image image){
     for(int y = 0; y < MAP_HEIGHT; y++) {
         for(int x = 0; x < MAP_WIDTH; x++) {
-            float value = map[x][y] * 127 + 128;
+            float value = map.h_map[y][x] * 127 + 128;
             float red = value;
             float blue = value;
             float green = value;
-            if(value < 130) {
+            if (map.features->is_ocean[y][x]) {
                 red = 0;
                 blue = value * 0.75;
                 green = value * 0.55;
@@ -65,21 +66,28 @@ sf::Image renderMap(float** map, sf::Image image){
 
 
 //Generates the map
-float** genMap(){
+terrain genMap(){
+    terrain map;
+    map.features = new iss[1]();
     srand(time(0));
     SimplexSettings settings = {16, .6, 0.0025, MAP_WIDTH, MAP_HEIGHT};
     SimplexGenerator generator(settings);
-    float** map = new float*[MAP_WIDTH];
+    float** hmap = new float*[MAP_WIDTH];
     for(int i = 0; i < MAP_WIDTH; i++) {
-        map[i] = new float[MAP_HEIGHT];
+        hmap[i] = new float[MAP_HEIGHT];
     }
-    generator.generate(map);
+    generator.generate(hmap);
+    for (auto y = 0; y < MAP_HEIGHT; y++) {
+        for (auto x = 0; x < MAP_WIDTH; x++) {
+            map.h_map[y][x] = hmap[y][x];
+        }
+    }
+
     return map;
 }
 
 int main() {
-    float** map = genMap();
-
+    terrain map = genMap();
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "GenWindow");    
     sf::Image image;
     image.create(MAP_WIDTH, MAP_HEIGHT);
@@ -89,7 +97,15 @@ int main() {
     Event event;
     bool drag = false;
     Vector2f prevCrsrCoords(-1, -1);
-    
+   
+    RiverGen gen = RiverGen(&map, MAP_WIDTH, MAP_HEIGHT);
+    gen.edge_fill_oceans();
+    /*for (auto row : map.h_map) {
+        for (auto h : row) {
+            if (h > 1 or h < -1)
+                std::cout << "Lee did something wrong, height out of range" << std::endl;
+        }
+    }*/
     while(window.isOpen()) {
     
         image = renderMap(map, image);

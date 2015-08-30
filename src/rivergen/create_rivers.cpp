@@ -15,7 +15,8 @@ struct end_point {
     bool is_active;
     end_point(coord co, bool b_is_active = true)
     {
-        c = co;
+        c.x = co.x;
+        c.y = co.y;
         is_active = b_is_active;
     }
 }
