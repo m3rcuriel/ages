@@ -29,7 +29,9 @@ terrain genMap(){
     }
     for (int i = 0; i < MAP_HEIGHT; i++) {
         delete[] hmap[i];
+        hmap[i] = NULL;
     }
+    delete[] hmap;
 
     return map;
 }
