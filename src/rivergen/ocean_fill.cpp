@@ -38,5 +38,5 @@ void RiverGen::edge_fill_oceans()
         }
         i++;
     }
-    std::cout << oceans.size() - init_oceans << "oceans created\n";
+    std::cout << oceans.size() - init_oceans << " oceans created\n";
 }
