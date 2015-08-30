@@ -1,4 +1,4 @@
-#include "gen/simplex.h"
+#include "simplex.h"
 #include <chrono>
 #include <random>
 #include <algorithm>
