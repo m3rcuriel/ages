@@ -17,7 +17,7 @@ SimplexGenerator::~SimplexGenerator() {
 void SimplexGenerator::generate(float** (&map)) {
     for(int y = 0; y < settings.height; y++) {
         for(int x = 0; x < settings.width; x++) {
-            map[x][y] = octave2d(settings.octaves, settings.persistence, settings.scale, x, y);
+            map[y][x] = octave2d(settings.octaves, settings.persistence, settings.scale, x, y);
         }
     }
 }

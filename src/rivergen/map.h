@@ -1,6 +1,6 @@
 #include <array>
-const int X_DIM = 480;
-const int Y_DIM = 640;
+const int X_DIM = 640;
+const int Y_DIM = 480;
 //The existence of terrain/features is unnecessary
 struct iss { 
     std::array<std::array<bool, X_DIM>, Y_DIM> is_ocean;
