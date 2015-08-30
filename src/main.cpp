@@ -56,6 +56,7 @@ sf::Image renderMap(float** map, sf::Image image){
                 blue = blue*blue*blue*blue / (255 * 255 * 255);
                 green = value;
             }
+            
             sf::Color pixel(sf::Color(red, green, blue));
             image.setPixel(x , y, pixel);
         }
