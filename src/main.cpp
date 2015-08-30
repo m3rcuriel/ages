@@ -18,7 +18,7 @@ terrain genMap(){
     SimplexSettings settings = {16, .6, 0.0025, MAP_WIDTH, MAP_HEIGHT};
     SimplexGenerator generator(settings);
     float** hmap = new float*[MAP_HEIGHT];
-    for(int i = 0; i < MAP_WIDTH; i++) {
+    for(int i = 0; i < MAP_HEIGHT; i++) {
         hmap[i] = new float[MAP_WIDTH];
     }
     generator.generate(hmap);
@@ -26,6 +26,9 @@ terrain genMap(){
         for (auto x = 0; x < MAP_WIDTH; x++) {
             map.h_map[y][x] = hmap[y][x];
         }
+    }
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        delete[] hmap[i];
     }
     return map;
 }
