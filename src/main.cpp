@@ -31,11 +31,8 @@ terrain genMap(){
         delete[] hmap[i];
         hmap[i] = NULL;
     }
-<<<<<<< HEAD
-=======
-    delete[] hmap;
 
->>>>>>> 4cdcd6f7d35494cabfc37fc20cf81f0050e41827
+    delete[] hmap;
     return map;
 }
 
