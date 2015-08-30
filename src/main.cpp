@@ -1,5 +1,5 @@
 #include "gen/simplex.h"
-#include "rivergen/rivergen.h"
+#include "gen/rivergen/rivergen.h"
 #include "graphicsLoop.h"
 #include <iostream>
 #include <cstdlib>
