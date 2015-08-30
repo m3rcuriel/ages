@@ -39,8 +39,8 @@ void zoom_to_mouse( sf::RenderWindow& window, Event event){
 
 //Transforms the map into a sfml image for rendering.
 sf::Image render_map(terrain map, sf::Image image){
-    for(int y = 0; y < map.h_map[0].size(); y++) {       
-        for(int x = 0; x < map.h_map[0].size(); x++) {
+    for(auto y = 0; y < map.h_map.size(); y++) {       
+        for(auto x = 0; x < map.h_map[0].size(); x++) {
             float value = map.h_map[y][x] * 127 + 128;
             float red = value;
             float blue = value;
