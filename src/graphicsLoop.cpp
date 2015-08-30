@@ -12,7 +12,7 @@ const int WIN_HEIGHT = 480;
 const int WIN_WIDTH = 640;
 
 
-//Zooms window to the mouse position.
+///Zooms given window to the mouse position.
 void zoom_to_mouse( sf::RenderWindow& window, Event event){
     int x = event.mouseWheel.x;
     int y = event.mouseWheel.y;
@@ -37,7 +37,7 @@ void zoom_to_mouse( sf::RenderWindow& window, Event event){
     window.setView(view);
 }
 
-//Transforms the map into a sfml image for rendering.
+///Transforms the map into a sfml image for rendering.
 sf::Image render_map(terrain map, sf::Image image){
     for(auto y = 0; y < map.h_map.size(); y++) {       
         for(auto x = 0; x < map.h_map[0].size(); x++) {
@@ -62,7 +62,9 @@ sf::Image render_map(terrain map, sf::Image image){
     return image;
 }
 
-void graphics_loop(terrain map){
+
+///This is the primary graphics loop
+int graphics_loop(terrain map){
     
     sf::RenderWindow window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT), "ages");    
     sf::Image image;
@@ -81,12 +83,18 @@ void graphics_loop(terrain map){
             
         while(window.pollEvent(event)) {
             
-            if(event.type == Event::Closed)
+            if(event.type == Event::Closed){
                 window.close();
-
+                return 0;
+            }
+            
             if(event.type == Event::MouseWheelMoved) 
                 zoom_to_mouse(window, event);
-            
+                
+            if(event.type == Event::KeyReleased && event.key.code == sf::Keyboard::Key::Space){
+                window.close();
+                return 1;
+            }
             if(event.type == Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Middle){
                 if(!drag){
                     Vector2i crsrPixel(sf::Mouse::getPosition(window));
@@ -116,4 +124,5 @@ void graphics_loop(terrain map){
         window.draw(sprite);
         window.display();
     }
+    return 0;
 }

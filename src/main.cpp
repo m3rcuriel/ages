@@ -27,7 +27,6 @@ terrain genMap(){
             map.h_map[y][x] = hmap[y][x];
         }
     }
-
     return map;
 }
 
@@ -37,11 +36,13 @@ int main() {
     RiverGen gen = RiverGen(&map, MAP_WIDTH, MAP_HEIGHT);
     gen.edge_fill_oceans();
     
-    graphics_loop(map);
-   
-    return 0; 
+    int out = 1;
+    do{
+        map = genMap();
+    
+        gen = RiverGen(&map, MAP_WIDTH, MAP_HEIGHT);
+        gen.edge_fill_oceans();
+        
+        out = graphics_loop(map);
+    }while(out == 1);    
 }
-
- 
-
-
