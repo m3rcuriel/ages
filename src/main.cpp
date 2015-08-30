@@ -27,6 +27,11 @@ terrain genMap(){
             map.h_map[y][x] = hmap[y][x];
         }
     }
+    
+    delete hmap;
+    for (int i = 0; i < MAP_HEIGHT) {
+        delete hmap[i];
+    }
 
     return map;
 }
