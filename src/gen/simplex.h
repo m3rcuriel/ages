@@ -1,5 +1,5 @@
-#ifndef PERLIN_H
-#define PERLIN_H
+#ifndef AGES_SIMPLEX_H
+#define AGES_SIMPLEX_H
 #include <iostream>
 #include <cmath>
 
@@ -60,4 +60,4 @@ static int perm[512] = {
     107,49,192,214,31,181,199,106,157,184,84,204,176,115,121,50,45,127,4,150,254,
     138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
 };
-#endif
+#endif // AGES_SIMPLEX_H

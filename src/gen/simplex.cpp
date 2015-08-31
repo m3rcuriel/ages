@@ -113,4 +113,4 @@ float SimplexGenerator::raw2d( const float x, const float y ) {
     return 70.0 * (n0 + n1 + n2);
 }
 
-int SimplexGenerator::fastfloor( const float x ) { return x > 0 ? (int) x : (int) x - 1; }
+inline int SimplexGenerator::fastfloor(const float x) { return x > 0 ? static_cast<int>(x) : static_cast<int> (x - 1); }

@@ -3,8 +3,8 @@
 
 void RiverGen::find_peaks()
 {
-    for (auto y = 0; y < y_dim; y++) {
-        for (auto x = 0; x < x_dim; x++) {
+    for (auto y = 0u; y < y_dim; y++) {
+        for (auto x = 0u; x < x_dim; x++) {
             std::vector<coord> circle_coords = circle(x, y, x_dim, y_dim, PEAK_RAD);
             float tallest_height = -1;
             coord tallest_coord;

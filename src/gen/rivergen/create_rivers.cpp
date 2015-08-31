@@ -32,7 +32,7 @@ void RiverGen::river_alg() {
 
     for (auto &river : end_points) {
         if (river.is_active) {
-            float lowest_height;
+            float lowest_height = -std::numeric_limits<float>::lowest();
             coord lowest_coord;
             for (auto adj : adj_coords(river.c.x, river.c.y, x_dim, y_dim, true)) {
                 if (map->h_map[adj.y][adj.x] < lowest_height) {

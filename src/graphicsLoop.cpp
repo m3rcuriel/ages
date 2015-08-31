@@ -1,6 +1,8 @@
 #include "gen/rivergen/map.h"
 #include "graphicsLoop.h"
 
+#include <cmath>
+
 using sf::Event;
 using sf::Vector2f;
 using sf::Vector2i;
@@ -38,7 +40,7 @@ void zoom_to_mouse( sf::RenderWindow& window, Event event){
     window.setView(view);
 }
 
-void zoomToCenter(sf::RenderWindow& window, const int& amount) {
+void zoomToCenter(sf::RenderWindow &window, const float &amount) {
     sf::View view = window.getView();
 
     if (amount < 0)
@@ -59,18 +61,18 @@ void moveWindowByVector(sf::RenderWindow& window, const Vector2i offset) {
 
 ///Transforms the map into a sfml image for rendering.
 sf::Image render_map(const terrain* map, sf::Image image){
-    for(auto y = 0; y < map->h_map.size(); y++) {
-        for(auto x = 0; x < map->h_map[0].size(); x++) {
+    for(auto y = 0u; y < map->h_map.size(); y++) {
+        for(auto x = 0u; x < map->h_map[0].size(); x++) {
             float value = map->h_map[y][x] * 127 + 128;
             float red = value;
             float blue = value;
             float green = value;
             if (map->features->is_ocean[y][x] || map->features->is_lake[y][x] || map->features->is_river[y][x]) {
                 red = 0;
-                blue = value * 0.75;
-                green = value * 0.55;
+                blue = value * 0.75f;
+                green = value * 0.55f;
             } else {
-                red = 0.50 * value;
+                red = 0.50f * value;
                 blue = blue*blue*blue*blue / (255 * 255 * 255);
                 green = value;
             }
@@ -151,7 +153,7 @@ int graphics_loop(const terrain* map) {
                 drag = false;
             }
             
-            if(event.type == Event::MouseMoved && drag == true){
+            if(event.type == Event::MouseMoved && drag){
                 Vector2i crsrPixel( sf::Mouse::getPosition(window));
                 Vector2f crsrCoords = window.mapPixelToCoords(crsrPixel);
                 float x = (prevCrsrCoords.x - crsrCoords.x);

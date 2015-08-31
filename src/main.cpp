@@ -1,5 +1,7 @@
 #include <cstdlib>
 
+#include "main.h"
+
 #include "gen/rivergen/map.h"
 #include "gen/rivergen/rivergen.h"
 #include "gen/simplex.h"
@@ -9,30 +11,6 @@ const int MAP_HEIGHT = 1280;
 const int MAP_WIDTH = 1280;
 
 const int REGEN_MAP = 2;
-
-//Generates the map
-void genMap(terrain *map)
-{
-    map->features = new iss[1]();
-    SimplexSettings settings = {8, .6, 0.001, MAP_WIDTH, MAP_HEIGHT};
-    SimplexGenerator generator(settings);
-    float** hmap = new float*[MAP_HEIGHT];
-    for(int i = 0; i < MAP_HEIGHT; i++) {
-        hmap[i] = new float[MAP_WIDTH];
-    }
-    generator.generate(hmap);
-    for (auto y = 0; y < MAP_HEIGHT; y++) {
-        for (auto x = 0; x < MAP_WIDTH; x++) {
-            map->h_map[y][x] = hmap[y][x];
-        }
-    }
-    for (int i = 0; i < MAP_HEIGHT; i++) {
-        delete[] hmap[i];
-        hmap[i] = NULL;
-    }
-
-    delete[] hmap;
-}
 
 int main() 
 {
@@ -59,4 +37,28 @@ int main()
     } while(out == 2);
     
     return 0;
+}
+
+//Generates the map
+void genMap(terrain *map)
+{
+    map->features = new iss[1]();
+    SimplexSettings settings = {8, .6, 0.001, MAP_WIDTH, MAP_HEIGHT};
+    SimplexGenerator generator(settings);
+    float** hmap = new float*[MAP_HEIGHT];
+    for(int i = 0; i < MAP_HEIGHT; i++) {
+        hmap[i] = new float[MAP_WIDTH];
+    }
+    generator.generate(hmap);
+    for (auto y = 0u; y < MAP_HEIGHT; y++) {
+        for (auto x = 0u; x < MAP_WIDTH; x++) {
+            map->h_map[y][x] = hmap[y][x];
+        }
+    }
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        delete[] hmap[i];
+        hmap[i] = NULL;
+    }
+
+    delete[] hmap;
 }

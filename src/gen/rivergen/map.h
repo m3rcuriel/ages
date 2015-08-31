@@ -1,5 +1,5 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef AGES_MAP_H
+#define AGES_MAP_H
 
 #include <array>
 const int X_DIM = 1280;
@@ -18,4 +18,4 @@ struct terrain {
     std::array<std::array<float, X_DIM>, Y_DIM> h_map;
     iss *features;
 };
-#endif // MAP_H
+#endif // AGES_MAP_H

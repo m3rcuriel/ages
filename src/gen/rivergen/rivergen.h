@@ -1,5 +1,5 @@
-#ifndef GEN_RIVERGEN_H
-#define GEN_RIVERGEN_H
+#ifndef AGES_GEN_RIVERGEN_H
+#define AGES_GEN_RIVERGEN_H
 
 struct terrain;
 
@@ -19,9 +19,11 @@ const float MAX_BULLDOZE_DIFF = 0.1;
 
 
 struct coord {
-    int x;
-    int y;
-    coord(int a = 0, int b = 0);
+    unsigned int x;
+    unsigned int y;
+    coord(unsigned int a = 0, unsigned int b = 0);
+    friend bool operator==(const coord& a, const coord& b);
+    friend bool operator<(const coord& a, const coord& b);
 };
 
 class RiverGen {
@@ -34,17 +36,17 @@ public:
     void find_peaks();
     void find_water_sources();
     void river_alg();
-    int x_dim;
-    int y_dim;
+    unsigned int x_dim;
+    unsigned int y_dim;
     terrain *map; //Not using a smart ptr because this isn't dangerous
-    RiverGen(terrain *the_map, int x, int y);
+    RiverGen(terrain *the_map, unsigned int x, unsigned int y);
     ~RiverGen();
 };
 
 template <class T>
 void remove_dup(std::vector<T>& vect);
-std::vector<coord> adj_coords(int x, int y, int x_dim, int y_dim, bool diag=false);
-std::vector<coord> circle(int x, int y, int x_dim, int y_dim, int rad);
+std::vector<coord> adj_coords(unsigned int x, unsigned int y, unsigned int x_dim, unsigned int y_dim, bool diag = false);
+std::vector<coord> circle(unsigned int x, unsigned int y, unsigned int x_dim, unsigned int y_dim, int rad);
 inline float randf(int low, int high) {
     return low + static_cast<float>(rand()) / static_cast<float>(RAND_MAX/(high - low));
 }
