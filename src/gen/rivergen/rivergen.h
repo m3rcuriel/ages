@@ -11,7 +11,7 @@ const float WATER_SOURCE_CHANCE = 0.7;
 const float MAX_LAKE_DEPTH = 0.1;
 const float MAX_LAKE_HEIGHT = 0.5;
 //^This stops a lake on a mountain from flooding the world
-const float MAX_BULLDOZE_DIFF = 0.05;
+const float MAX_BULLDOZE_DIFF = 0.1;
 //^This is how much taller and adj tile to a river can be before it is bulldozed
 
 

@@ -61,14 +61,14 @@ void moveWindowByVector(sf::RenderWindow& window, const Vector2i offset) {
 }
 
 ///Transforms the map into a sfml image for rendering.
-sf::Image render_map(terrain map, sf::Image image){
-    for(auto y = 0; y < map.h_map.size(); y++) {       
-        for(auto x = 0; x < map.h_map[0].size(); x++) {
-            float value = map.h_map[y][x] * 127 + 128;
+sf::Image render_map(const terrain* map, sf::Image image){
+    for(auto y = 0; y < map->h_map.size(); y++) {
+        for(auto x = 0; x < map->h_map[0].size(); x++) {
+            float value = map->h_map[y][x] * 127 + 128;
             float red = value;
             float blue = value;
             float green = value;
-            if (map.features->is_ocean[y][x]) {
+            if (map->features->is_ocean[y][x] || map->features->is_lake[y][x] || map->features->is_river[y][x]) {
                 red = 0;
                 blue = value * 0.75;
                 green = value * 0.55;
@@ -92,9 +92,9 @@ int close_window(){
 
 
 ///This is the primary graphics loop
-int graphics_loop(terrain map){
+int graphics_loop(const terrain* map) {
 
-    image.create(map.h_map[0].size(), map.h_map.size());
+    image.create(map->h_map[0].size(), map->h_map.size());
     sf::Texture texture;
     texture.loadFromImage(image);
     sf::Sprite sprite(texture);

@@ -2,6 +2,7 @@
 #include <chrono>
 #include <random>
 #include <algorithm>
+#include <cmath>
 
 SimplexGenerator::SimplexGenerator(SimplexSettings settings) : settings(settings) {
     std::random_shuffle(std::begin(perm), std::end(perm));
@@ -20,6 +21,10 @@ void SimplexGenerator::generate(float** (&map)) {
             map[y][x] = octave2d(settings.octaves, settings.persistence, settings.scale, x, y);
         }
     }
+}
+
+void SimplexGenerator::island(float ** (&map)) {
+    // TODO Add A* which cuts off land border
 }
 
 float SimplexGenerator::octave2d( const float octaves, const float persistence, const float scale, const float x, const float y ) {

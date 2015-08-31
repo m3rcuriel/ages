@@ -24,6 +24,7 @@ class SimplexGenerator {
         ~SimplexGenerator();
 
         void generate(float** &(map));
+        void island(float ** &(map));
 };
 
 static const int grad3[12][3] = {
