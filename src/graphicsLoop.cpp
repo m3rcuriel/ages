@@ -10,7 +10,8 @@ using sf::Vector2i;
 
 const int WIN_HEIGHT = 480;
 const int WIN_WIDTH = 640;
-
+sf::RenderWindow window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT), "ages");    
+sf::Image image;
 
 ///Zooms given window to the mouse position.
 void zoom_to_mouse( sf::RenderWindow& window, Event event){
@@ -62,12 +63,15 @@ sf::Image render_map(terrain map, sf::Image image){
     return image;
 }
 
+int close_window(){
+    window.close();
+    return 0;
+}
+
 
 ///This is the primary graphics loop
 int graphics_loop(terrain map){
     
-    sf::RenderWindow window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT), "ages");    
-    sf::Image image;
     image.create(map.h_map[0].size(), map.h_map.size());
     sf::Texture texture;
     texture.loadFromImage(image);
@@ -84,17 +88,20 @@ int graphics_loop(terrain map){
         while(window.pollEvent(event)) {
             
             if(event.type == Event::Closed){
-                window.close();
-                return 0;
+                return close_window();
+            }
+            
+            if(event.type == Event::KeyReleased && event.key.code == sf::Keyboard::Key::Q){
+                close_window();
             }
             
             if(event.type == Event::MouseWheelMoved) 
                 zoom_to_mouse(window, event);
                 
             if(event.type == Event::KeyReleased && event.key.code == sf::Keyboard::Key::Space){
-                window.close();
-                return 1;
+                return 2;
             }
+            
             if(event.type == Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Middle){
                 if(!drag){
                     Vector2i crsrPixel(sf::Mouse::getPosition(window));
@@ -126,3 +133,4 @@ int graphics_loop(terrain map){
     }
     return 0;
 }
+

@@ -9,10 +9,11 @@
 const int MAP_HEIGHT = 480;
 const int MAP_WIDTH = 640;
 
+const int REGEN_MAP = 2;
 
 //Generates the map
-terrain genMap(){
-    terrain map;
+void genMap(terrain &map)
+{
     map.features = new iss[1]();
     srand(time(0));
     SimplexSettings settings = {16, .6, 0.0025, MAP_WIDTH, MAP_HEIGHT};
@@ -33,22 +34,29 @@ terrain genMap(){
     }
 
     delete[] hmap;
-    return map;
 }
 
-int main() {
-    terrain map = genMap();
+int main() 
+{
+    terrain map;
+    genMap( map);
     
     RiverGen gen = RiverGen(&map, MAP_WIDTH, MAP_HEIGHT);
     gen.edge_fill_oceans();
     
     int out = 1;
-    do{
-        map = genMap();
     
-        gen = RiverGen(&map, MAP_WIDTH, MAP_HEIGHT);
-        gen.edge_fill_oceans();
+    do{
+        if(out == REGEN_MAP){
+            genMap( map);
+    
+            gen = RiverGen(&map, MAP_WIDTH, MAP_HEIGHT);
+            gen.edge_fill_oceans();
+        }
         
         out = graphics_loop(map);
-    }while(out == 1);    
+        
+    }while(out == 2);
+    
+    return 0;
 }
