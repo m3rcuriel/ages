@@ -10,6 +10,10 @@ using sf::Vector2i;
 
 const int WIN_HEIGHT = 480;
 const int WIN_WIDTH = 640;
+const float ZOOM_FACTOR = 1.2;
+const int SCROLL_AMOUNT = 5;
+const float KEY_ZOOM = 1.0;
+
 sf::RenderWindow window(sf::VideoMode(WIN_WIDTH, WIN_HEIGHT), "ages");    
 sf::Image image;
 
@@ -18,7 +22,6 @@ void zoom_to_mouse( sf::RenderWindow& window, Event event){
     int x = event.mouseWheel.x;
     int y = event.mouseWheel.y;
     int delta = event.mouseWheel.delta;
-    float zoomFactor = 1.2;
     
     sf::View view = window.getView();
     Vector2i crsrPixel(x,y);
@@ -26,15 +29,34 @@ void zoom_to_mouse( sf::RenderWindow& window, Event event){
     
     float zoom;
     if(delta < 0)
-        zoom = delta*zoomFactor*-1;
+        zoom = delta*ZOOM_FACTOR*-1;
     else
-        zoom = 1/(delta*zoomFactor);
+        zoom = 1/(delta*ZOOM_FACTOR);
     
     view.setCenter(crsrCoords);
     view.zoom(zoom);
     
     Vector2f crsrCoordsNew = window.mapPixelToCoords(crsrPixel, view);//Finds new mouse coordinates
     view.move( crsrCoords.x-crsrCoordsNew.x, crsrCoords.y-crsrCoordsNew.y); //Moves view based on new mouse coords.
+    window.setView(view);
+}
+
+void zoomToCenter(sf::RenderWindow& window, const int& amount) {
+    sf::View view = window.getView();
+
+    if (amount < 0)
+        view.zoom(abs(amount) * ZOOM_FACTOR);
+    else if (amount > 0)
+        view.zoom(1 / (amount * ZOOM_FACTOR));
+
+    window.setView(view);
+}
+
+void moveWindowByVector(sf::RenderWindow& window, const Vector2i offset) {
+    sf::View view = window.getView();
+
+    view.move(offset.x, offset.y);
+
     window.setView(view);
 }
 
@@ -71,7 +93,7 @@ int close_window(){
 
 ///This is the primary graphics loop
 int graphics_loop(terrain map){
-    
+
     image.create(map.h_map[0].size(), map.h_map.size());
     sf::Texture texture;
     texture.loadFromImage(image);
@@ -97,6 +119,24 @@ int graphics_loop(terrain map){
             
             if(event.type == Event::MouseWheelMoved) 
                 zoom_to_mouse(window, event);
+
+            if(event.type == Event::KeyPressed && event.key.shift) {
+                if (event.key.code == sf::Keyboard::Key::Up)
+                    zoomToCenter(window, KEY_ZOOM);
+                else if (event.key.code == sf::Keyboard::Key::Down)
+                    zoomToCenter(window, -KEY_ZOOM);
+            } else if (event.type == Event::KeyPressed) {
+                // TODO scale scroll based on current zoom level
+                if (event.key.code == sf::Keyboard::Key::Left)
+                    moveWindowByVector(window, Vector2i{-SCROLL_AMOUNT, 0});
+                if (event.key.code == sf::Keyboard::Key::Right)
+                    moveWindowByVector(window, Vector2i{SCROLL_AMOUNT, 0});
+                if (event.key.code == sf::Keyboard::Key::Up)
+                    moveWindowByVector(window, Vector2i{0, -SCROLL_AMOUNT});
+                if (event.key.code == sf::Keyboard::Key::Down)
+                    moveWindowByVector(window, Vector2i{0, SCROLL_AMOUNT});
+            }
+
                 
             if(event.type == Event::KeyReleased && event.key.code == sf::Keyboard::Key::Space){
                 return 2;
