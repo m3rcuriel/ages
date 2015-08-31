@@ -19,10 +19,9 @@ struct end_point {
         c.y = co.y;
         is_active = b_is_active;
     }
-}
+};
 
-RiverGen::river_alg()
-{ 
+void RiverGen::river_alg() { 
     std::vector<end_point> end_points;
     end_points.reserve(sources.size());
     for (auto source : sources) {

@@ -1,5 +1,5 @@
 #include "SFML/Graphics.hpp"
-#include "rivergen/rivergen.h"
+#include "gen/rivergen/rivergen.h"
 #include "graphicsLoop.h"
 #include <iostream>
 #include <cmath>

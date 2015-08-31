@@ -42,4 +42,6 @@ template <class T>
 void remove_dup(std::vector<T>& vect);
 std::vector<coord> adj_coords(int x, int y, int x_dim, int y_dim, bool diag=false);
 std::vector<coord> circle(int x, int y, int x_dim, int y_dim, int rad);
-inline float randf();
+inline float randf(int low, int high) {
+    return low + static_cast<float>(rand()) / static_cast<float>(RAND_MAX/(high - low));
+}

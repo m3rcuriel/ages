@@ -1,6 +1,6 @@
 #include "rivergen.h"
 
-RiverGen::find_peaks()
+void RiverGen::find_peaks()
 {
     for (auto y = 0; y < y_dim; y++) {
         for (auto x = 0; x < x_dim; x++) {
@@ -22,10 +22,10 @@ RiverGen::find_peaks()
     }
 }
 
-RiverGen::find_water_sources()
+void RiverGen::find_water_sources()
 {
     for (auto peak : peaks) {
-        if (randf() < WATER_SOURCE_CHANCE) {
+        if (randf(0, 1) < WATER_SOURCE_CHANCE) {
             map->features->is_source[peak.y][peak.x] = true;
             sources.push_back(peak);
         }
