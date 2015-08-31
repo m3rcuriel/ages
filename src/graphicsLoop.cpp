@@ -1,8 +1,5 @@
-#include "SFML/Graphics.hpp"
-#include "gen/rivergen/rivergen.h"
+#include "gen/rivergen/map.h"
 #include "graphicsLoop.h"
-#include <iostream>
-#include <cmath>
 
 using sf::Event;
 using sf::Vector2f;

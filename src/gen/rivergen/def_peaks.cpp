@@ -1,3 +1,4 @@
+#include "map.h"
 #include "rivergen.h"
 
 void RiverGen::find_peaks()

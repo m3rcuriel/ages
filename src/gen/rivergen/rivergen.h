@@ -1,8 +1,11 @@
+#ifndef GEN_RIVERGEN_H
+#define GEN_RIVERGEN_H
+
+struct terrain;
+
 #include <vector>
-#include <set>
 #include <random>
-#include <cmath>
-#include "map.h"
+
 const float WATER_LEVEL = 0;
 const int MIN_OCEANS = 20;
 const float PEAK_MIN = 0.3;
@@ -45,3 +48,5 @@ std::vector<coord> circle(int x, int y, int x_dim, int y_dim, int rad);
 inline float randf(int low, int high) {
     return low + static_cast<float>(rand()) / static_cast<float>(RAND_MAX/(high - low));
 }
+
+#endif // GEN_RIVERGEN_H

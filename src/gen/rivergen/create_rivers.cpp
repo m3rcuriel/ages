@@ -1,4 +1,6 @@
+#include "map.h"
 #include "rivergen.h"
+
 /* Algorithm for Rivers:
  * First, some peaks are chosen to be water sources
  * Those rivers go down to the lowest adjacent point

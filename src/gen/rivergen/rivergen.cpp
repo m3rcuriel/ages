@@ -1,8 +1,5 @@
 #include "rivergen.h"
-#include <vector>
 #include <set>
-#include <random>
-#include <cmath>
 
 RiverGen::RiverGen(terrain *the_map, int x, int y)
 {
@@ -41,7 +38,6 @@ void remove_dup(std::vector<T>& vect)
 {
     //According to SO, this is the fastest way for large vects
     std::set<T> uniques;
-    size_t size = vect.size();
     for (auto elem : vect) {uniques.insert(elem);}
     vect.assign(uniques.begin(), uniques.end());
 }

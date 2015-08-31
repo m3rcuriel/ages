@@ -1,5 +1,7 @@
+#include "map.h"
 #include "rivergen.h"
 #include <iostream>
+// TODO create output implementation
 
 void RiverGen::edge_fill_oceans()
 {
@@ -24,7 +26,7 @@ void RiverGen::edge_fill_oceans()
             oceans.push_back(coord(x_dim - 1, y));
         }
     }
-    size_t init_oceans = oceans.size();
+    auto init_oceans = oceans.size();
     auto i = 0;
     while (i < oceans.size()) {
         coord ocean_coord = oceans[i];

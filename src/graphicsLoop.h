@@ -1,8 +1,9 @@
 #ifndef GRAPHICSLOOP_H
 #define GRAPHICSLOOP_H
 
+struct terrain;
+
 #include "SFML/Graphics.hpp"
-#include "gen/rivergen/map.h"
 
 using sf::Event;
 

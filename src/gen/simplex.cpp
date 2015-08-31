@@ -1,8 +1,6 @@
 #include "simplex.h"
-#include <chrono>
 #include <random>
 #include <algorithm>
-#include <cmath>
 
 SimplexGenerator::SimplexGenerator(SimplexSettings settings) : settings(settings) {
     std::random_shuffle(std::begin(perm), std::end(perm));

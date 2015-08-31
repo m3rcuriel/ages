@@ -1,11 +1,9 @@
-#include "gen/simplex.h"
-#include "gen/rivergen/rivergen.h"
-#include "graphicsLoop.h"
-#include "gen/rivergen/map.h"
-#include <iostream>
 #include <cstdlib>
-#include <ctime>
-#include <cmath>
+
+#include "gen/rivergen/map.h"
+#include "gen/rivergen/rivergen.h"
+#include "gen/simplex.h"
+#include "graphicsLoop.h"
 
 const int MAP_HEIGHT = 1280;
 const int MAP_WIDTH = 1280;
@@ -16,7 +14,6 @@ const int REGEN_MAP = 2;
 void genMap(terrain *map)
 {
     map->features = new iss[1]();
-    srand(time(0));
     SimplexSettings settings = {8, .6, 0.001, MAP_WIDTH, MAP_HEIGHT};
     SimplexGenerator generator(settings);
     float** hmap = new float*[MAP_HEIGHT];
@@ -39,6 +36,8 @@ void genMap(terrain *map)
 
 int main() 
 {
+    srand(time(0));
+
     terrain* map = new terrain;
     genMap(map);
     
