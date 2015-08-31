@@ -16,6 +16,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 include_directories(gen)
 include_directories(rivergen)
 
-add_executable (demo main.cpp gen/simplex.cpp rivergen/rivergen.cpp rivergen/ocean_fill.cpp graphicsLoop.cpp)
+add_executable (demo main.cpp gen/simplex.cpp gen/rivergen/rivergen.cpp gen/rivergen/ocean_fill.cpp graphicsLoop.cpp)
 
 target_link_libraries(demo sfml-graphics sfml-window sfml-system)
