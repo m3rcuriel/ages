@@ -12,8 +12,7 @@ const int MAP_WIDTH = 1280;
 
 const int REGEN_MAP = 2;
 
-int main() 
-{
+int main() {
     srand(time(0));
 
     terrain* map = new terrain;
@@ -25,28 +24,27 @@ int main()
     int out = 1;
     
     do{
-        if(out == REGEN_MAP){
+        if (out == REGEN_MAP){
             genMap( map);
     
             gen = RiverGen(map, MAP_WIDTH, MAP_HEIGHT);
             gen.edge_fill_oceans();
         }
         
-        out = graphics_loop(map);
+        out = graphicsLoop(map);
         
-    } while(out == 2);
+    } while (out == 2);
     
     return 0;
 }
 
 //Generates the map
-void genMap(terrain *map)
-{
+void genMap(terrain *map){
     map->features = new iss[1]();
     SimplexSettings settings = {8, .6, 0.001, MAP_WIDTH, MAP_HEIGHT};
     SimplexGenerator generator(settings);
     float** hmap = new float*[MAP_HEIGHT];
-    for(int i = 0; i < MAP_HEIGHT; i++) {
+    for (int i = 0; i < MAP_HEIGHT; i++) {
         hmap[i] = new float[MAP_WIDTH];
     }
     generator.generate(hmap);
