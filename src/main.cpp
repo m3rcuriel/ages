@@ -34,6 +34,9 @@ int main() {
         out = graphicsLoop(map);
         
     } while (out == 2);
+
+    delete [] terrain;
+    terrain = nullptr;
     
     return 0;
 }
@@ -55,7 +58,7 @@ void genMap(terrain *map){
     }
     for (int i = 0; i < MAP_HEIGHT; i++) {
         delete[] hmap[i];
-        hmap[i] = NULL;
+        hmap[i] = nullptr;
     }
 
     delete[] hmap;
