@@ -35,8 +35,8 @@ int main() {
         
     } while (out == 2);
 
-    delete [] terrain;
-    terrain = nullptr;
+    delete [] map;
+    map = nullptr;
     
     return 0;
 }
