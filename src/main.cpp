@@ -34,8 +34,9 @@ int main() {
         out = graphicsLoop(map);
         
     } while (out == 2);
-
-    delete [] map;
+    
+    delete[] map->features;
+    delete map;
     map = nullptr;
     
     return 0;
