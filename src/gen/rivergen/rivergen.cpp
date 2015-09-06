@@ -50,15 +50,19 @@ std::vector<coord> adj_coords(unsigned int x, unsigned int y, unsigned int x_dim
     int sign_y_dim = static_cast<int>(y_dim);
 
     std::vector<coord> adj;
-    std::array<std::array<int, 2>, 4> dirs{{
+    std::vector<std::vector<int>> dirs{{
                                                    {1, 0},
                                                    {0, 1},
                                                    {-1, 0},
                                                    {0, -1}
                                            }};
-    /*constexpr int dirs[8][2] = {{-1, -1}, {0, -1}, {1, -1},
+    if (diag) {
+        std::vector<std::vector<int>>  all_dirs{
+                                {-1, -1}, {0, -1}, {1, -1},
                                 {-1,  0},          {1,  0},
-                                {-1,  1}, {0,  1}, {1,  1}};*/
+                                {-1,  1}, {0,  1}, {1,  1}};
+        dirs = all_dirs;
+    }
 
     for (auto dir : dirs) {
         if (dir[0] + sign_x >= 0 and dir[0] + sign_x < sign_x_dim and

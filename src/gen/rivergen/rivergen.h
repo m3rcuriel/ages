@@ -6,15 +6,16 @@ struct terrain;
 #include <vector>
 #include <random>
 
+//All values found through experimentation
 const float WATER_LEVEL = 0;
 const int MIN_OCEANS = 20;
-const float PEAK_MIN = 0.3;
-const int PEAK_RAD = 3;
-const float WATER_SOURCE_CHANCE = 0.7;
+const float PEAK_MIN = .35;
+const int PEAK_RAD = 8;
+const float WATER_SOURCE_CHANCE = 0.1;
 const float MAX_LAKE_DEPTH = 0.1;
 const float MAX_LAKE_HEIGHT = 0.5;
 //^This stops a lake on a mountain from flooding the world
-const float MAX_BULLDOZE_DIFF = 0.1;
+const float MAX_BULLDOZE_DIFF = .1;
 //^This is how much taller and adj tile to a river can be before it is bulldozed
 
 
