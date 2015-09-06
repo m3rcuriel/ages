@@ -1,15 +1,18 @@
 #include "map.h"
 #include "rivergen.h"
+#include <limits>
 
 void RiverGen::find_peaks()
 {
-    for (auto y = 0u; y < y_dim; y++) {
-        for (auto x = 0u; x < x_dim; x++) {
-            std::vector<coord> circle_coords = circle(x, y, x_dim, y_dim, PEAK_RAD);
-            float tallest_height = -1;
+    for (auto y = 0u; y < y_dim; y+=PEAK_RAD) {
+        for (auto x = 0u; x < x_dim; x+=PEAK_RAD) {
+            std::vector<coord> region = circle(x, y, x_dim, y_dim, PEAK_RAD);
+            region.push_back(coord(x, y));
+            float tallest_height = -std::numeric_limits<float>::infinity();
             coord tallest_coord;
-            for (auto tile : circle_coords) {
-                if (float height = map->h_map[tile.y][tile.x] > tallest_height) {
+            for (auto tile : region) {
+                float height = map->h_map[tile.y][tile.x];
+                if (height > tallest_height) {
                     tallest_height = height;
                     tallest_coord = tile;
                 }

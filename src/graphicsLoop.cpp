@@ -70,7 +70,8 @@ sf::Image renderMap(const terrain* map, sf::Image image){
                 red = 0;
                 blue = value * 0.75f;
                 green = value * 0.55f;
-            } else {
+            } 
+            else {
                 red = 0.50f * value;
                 blue = blue*blue*blue*blue / (255 * 255 * 255);
                 green = value;

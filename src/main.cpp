@@ -20,6 +20,7 @@ int main() {
     
     RiverGen gen = RiverGen(map, MAP_WIDTH, MAP_HEIGHT);
     gen.edge_fill_oceans();
+    gen.find_peaks();
     
     int out = 1;
     
